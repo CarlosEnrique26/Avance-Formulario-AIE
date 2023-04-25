@@ -19,7 +19,7 @@ import { useHistory } from 'react-router-dom';
     const BotonesRadio = () => {
 
     const [usuario, setUsuario] = useState({
-        PedroMiguel : '',
+        PedroMiguel : {createData},
         MaríaBernar : '',
         EstebanRuiz : ''
         });
@@ -27,7 +27,8 @@ import { useHistory } from 'react-router-dom';
     //Navegacion entre paginas//
     
     const history = useHistory();
-    const BotonSiguiente = () => history.push('/auth/imprimevoto');
+    const Siguiente = () => history.push('/auth/imprimevoto');
+    const Atras = () => history.push('/auth/enviar');
 
     // Botones de Radio //
 
@@ -35,7 +36,6 @@ import { useHistory } from 'react-router-dom';
     
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
-        console.log(selectedValue)
         };
 
     // Tabla //
@@ -63,6 +63,13 @@ import { useHistory } from 'react-router-dom';
         ];
     
         const classes = useStyles();
+
+        //Enviar resultados//
+        
+        const BotonEnviar = e => {
+            e.preventDefault();
+            console.log("Los resultados de la votacion los siguientes:", usuario);
+        }
 
         // Alert //
 
@@ -99,13 +106,6 @@ import { useHistory } from 'react-router-dom';
             )
             }
         });
-
-        //Enviar resultados//
-        
-        const BotonEnviar = e => {
-            e.preventDefault();
-            console.log("imprime los valores de memoria temporal de usuario", usuario);
-        }
 
     return (
         <Container component="main" maxWidth="md" justify="center">
@@ -261,7 +261,7 @@ import { useHistory } from 'react-router-dom';
                         </Grid>
                         <Grid item xs={12} md={12}>
                             <Box width="20%" margin="auto">
-                                <Button onClick={()=>swalWithBootstrapButtons(BotonEnviar)} type="submit" variant="contained" color="primary" style={style.form} >
+                                <Button onClick={BotonEnviar} type="submit" variant="contained" color="primary" style={style.form} >
                                     Enviar Voto
                                 </Button>
                             </Box>
@@ -408,13 +408,20 @@ import { useHistory } from 'react-router-dom';
                         <Grid item xs={12} md={1}></Grid>
 
                         <Grid item xs={12} md={12}></Grid>
-                        <Grid item xs={12} md={12}>
-                            <Box width="20%" margin="auto">
-                                <Button onClick={BotonSiguiente} type="submit" variant="contained" color="primary" style={style.form} >
-                                    Siguiente Pagina
-                                </Button>
-                            </Box>
-                        </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Box width="20%" margin="auto">
+                                    <Button onClick={Atras} type="submit" variant="contained" color="primary" style={style.form} >
+                                        Atras
+                                    </Button>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Box width="20%" margin="auto">
+                                    <Button onClick={Siguiente} type="submit" variant="contained" color="primary" style={style.form} >
+                                        Siguiente
+                                    </Button>
+                                </Box>
+                            </Grid>
                         <Grid item xs={12} md={12}></Grid>
 
                     </Grid>

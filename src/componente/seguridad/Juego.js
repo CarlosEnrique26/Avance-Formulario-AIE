@@ -17,7 +17,8 @@ const Juego = () => {
     //Navegacion entre paginas//
 
     const history = useHistory();
-    const BotonSiguiente = () => history.push('/auth/acceso');
+    const Siguiente = () => history.push('/auth/acceso');
+    const Atras = () => history.push('/auth/imprimevoto');
 
     //Funcion para los editores de textos
 
@@ -292,14 +293,25 @@ const Juego = () => {
                                 />
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} md={12}>
+                        
+                        <Grid item xs={12} sm={12}></Grid>
+                        
+                        <Grid item xs={12} sm={6}>
                             <Box width="20%" margin="auto">
-                                <Button onClick={BotonSiguiente} type="submit" variant="contained" color="primary" style={style.form} >
-                                    volver a Acceso
+                                <Button onClick={Atras} type="submit" variant="contained" color="primary" style={style.form} >
+                                    Atras
                                 </Button>
                             </Box>
                         </Grid>
-                        <Grid item xs={12} md={12}></Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Box width="20%" margin="auto">
+                                <Button onClick={Siguiente} type="submit" variant="contained" color="primary" style={style.form} >
+                                    Siguiente
+                                </Button>
+                            </Box>
+                        </Grid>
+                    
+                        <Grid item xs={12} sm={12}></Grid>
                     </Box>
                 </form>
             </div>
@@ -309,12 +321,3 @@ const Juego = () => {
 
 export default Juego; 
 
-/*const handleChangeSelect = (event) => {
-    setAge(event.target.value);
-    console.log(age)
-};*/
-
-/*<MenuItem value="10">Ten</MenuItem>
-                                    <MenuItem value="20">Twenty</MenuItem>
-                                    <MenuItem value="30">Thirty</MenuItem>
-*/

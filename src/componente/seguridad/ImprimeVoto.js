@@ -26,7 +26,8 @@ import { useHistory } from 'react-router-dom';
     //Navegacion entre paginas//
     
     const history = useHistory();
-    const BotonSiguiente = () => history.push('/auth/juego');
+    const Siguiente = () => history.push('/auth/juego');
+    const Atras = () => history.push('/auth/botonesradio');
 
     // Botones de Radio //
 
@@ -408,10 +409,17 @@ import { useHistory } from 'react-router-dom';
                         <Grid item xs={12} md={1}></Grid>
 
                         <Grid item xs={12} md={12}></Grid>
-                        <Grid item xs={12} md={12}>
+                        <Grid item xs={12} md={6}>
                             <Box width="20%" margin="auto">
-                                <Button onClick={BotonSiguiente} type="submit" variant="contained" color="primary" style={style.form} >
-                                    Siguiente Pagina
+                                <Button onClick={Atras} type="submit" variant="contained" color="primary" style={style.form} >
+                                    Atras
+                                </Button>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Box width="20%" margin="auto">
+                                <Button onClick={Siguiente} type="submit" variant="contained" color="primary" style={style.form} >
+                                    Siguiente
                                 </Button>
                             </Box>
                         </Grid>

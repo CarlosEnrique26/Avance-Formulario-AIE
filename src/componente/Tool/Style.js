@@ -20,6 +20,11 @@ const style = {
         backgroundColor : "#4caf50",
         width : "60",
         height : "60"
+    },
+
+    swalWithBootstrapButtons: {
+        width: "100%",
+        marginTop: 200
     }
 
 };

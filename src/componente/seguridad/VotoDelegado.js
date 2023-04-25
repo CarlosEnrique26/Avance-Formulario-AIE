@@ -18,7 +18,8 @@ import { useHistory } from 'react-router-dom';
     //Navegacion entre paginas//
 
     const history = useHistory();
-    const BotonSiguiente = () => history.push('/auth/enviar');
+    const Siguiente = () => history.push('/auth/enviar');
+    const Atras = () => history.push('/auth/acceso');
 
     //Alert//
 
@@ -42,7 +43,7 @@ import { useHistory } from 'react-router-dom';
             if (result.isConfirmed) {
             swalWithBootstrapButtons.fire(
                 'Confirmado',
-                'Su voto ha sido enviado.',
+                'La opcion sera aplicada.',
                 'success'
             )
             } else if (
@@ -51,12 +52,18 @@ import { useHistory } from 'react-router-dom';
             ) {
             swalWithBootstrapButtons.fire(
                 'Cancelado',
-                'Puede revisar una vez mas',
+                'La opcion no se aplicara',
                 'error'
             )
             }
-                console.log("Los resultados de la votacion son: ", usuario);
         });
+
+        // Enviar resultados
+
+        const BotonEnviar = e => {
+            e.preventDefault();
+            console.log("Los resultados de la votacion son: ", usuario);
+        }
 
     return (
         <Container component="main" maxWidth="md" justify="center">
@@ -94,16 +101,23 @@ import { useHistory } from 'react-router-dom';
                         
                         <Grid item xs={12} md={12}>
                             <Box width="20%" margin="auto">
-                                <Button onClick={()=>swalWithBootstrapButtons()} type="submit" variant="contained" color="primary" style={style.form} >
+                                <Button onClick={BotonEnviar} type="submit" variant="contained" color="primary" style={style.form} >
                                     Enviar Voto
                                 </Button>
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={12}></Grid>
-                        <Grid item xs={12} md={12}>
+                        <Grid item xs={12} md={6}>
                             <Box width="20%" margin="auto">
-                                <Button onClick={BotonSiguiente} type="submit" variant="contained" color="primary" style={style.form} >
-                                    Siguiente Pagina
+                                <Button onClick={Atras} type="submit" variant="contained" color="primary" style={style.form} >
+                                    Atras
+                                </Button>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Box width="20%" margin="auto">
+                                <Button onClick={Siguiente} type="submit" variant="contained" color="primary" style={style.form} >
+                                    Siguiente
                                 </Button>
                             </Box>
                         </Grid>

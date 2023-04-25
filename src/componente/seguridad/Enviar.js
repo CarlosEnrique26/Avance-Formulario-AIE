@@ -17,7 +17,8 @@ const Enviar = () => {
     //Navegacion entre paginas//
 
     const history = useHistory();
-    const BotonSiguiente = () => history.push('/auth/botonesradio');
+    const Siguiente = () => history.push('/auth/botonesradio');
+    const Atras = () => history.push('/auth/votodelegado');
 
     //Enviar resultados//
 
@@ -219,10 +220,17 @@ const Enviar = () => {
                         <Grid item xs={12} md={1}></Grid>
 
                         <Grid item xs={12} md={12}></Grid>
-                        <Grid item xs={12} md={12}>
+                        <Grid item xs={12} md={6}>
                             <Box width="20%" margin="auto">
-                                <Button onClick={BotonSiguiente} type="submit" variant="contained" color="primary" style={style.form} >
-                                    Siguiente Pagina
+                                <Button onClick={Atras} type="submit" variant="contained" color="primary" style={style.form} >
+                                    Atras
+                                </Button>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Box width="20%" margin="auto">
+                                <Button onClick={Siguiente} type="submit" variant="contained" color="primary" style={style.form} >
+                                    Siguiente
                                 </Button>
                             </Box>
                         </Grid>
