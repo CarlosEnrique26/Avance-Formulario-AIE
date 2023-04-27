@@ -1,68 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import style from '../Tool/Style';
 import { Container, TextField, Typography, Grid, Box, Button } from '@material-ui/core';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
+import JoditEditor from "jodit-react";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Radio from '@material-ui/core/Radio';
-import { useHistory } from 'react-router-dom';
-
-
 
 const Juego = () => {
 
     const [data, setData]=useState('');
 
-    //Navegacion entre paginas//
+    //Funcion para editor 
 
-    const history = useHistory();
-    const Siguiente = () => history.push('/auth/acceso');
-    const Atras = () => history.push('/auth/imprimevoto');
+    const editor = useRef(null)
+	const [content, setContent] = useState('')
+	
+	const config = {
+		readonly: false // all options from https://xdsoft.net/jodit/doc/
+	}
 
-    //Funcion para los editores de textos
-
-    const handleChange =(e,editor)=>{
-        setData(editor.getData());
-    }
     //Funcion para titulo y logo
     
     const [usuario, setUsuario] = useState({
         titulo :'',
         logo :''
         });
+    const [error, setError] = useState({
+        error: false,
+        message: "",
+        });
 
-    const [ErrorTitulo, setErrorTitulo] = useState(0);
-    
-    const ValidateTitulo = e => {
-        const{name, value} = e.target;
-        setUsuario( anterior => ({
-            ...anterior,
-            [name] : value
-        }))
-        console.log(value);
-        const minValue=value.length>4;
-        const maxValue=value.length<16;
-        const onliLet=/^[a-zA-Z0-9\_\-]{4,16}$/.test(value);
+    const validateUsuario = (usuario) => {
+        const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        return regex.test(usuario);
+        };
 
-        console.log("min",minValue);
-        console.log("maxValue",maxValue);
-        console.log("onliLet",onliLet);
-
-        if (onliLet === false) {
-            setErrorTitulo(1);
-        } else if (!minValue) {
-            setErrorTitulo(2);
-        } else {
-            setErrorTitulo(3);
-        }
-
-        if (onliLet === true && minValue && maxValue) {
-            setErrorTitulo(0);
-        }
-        setUsuario(value);
-    };
-
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            if (validateUsuario(usuario)) {
+                setError({
+                    error:false,
+                    message: "",
+                })
+                console.log("Titulo correcto");
+            } else {
+                setError({
+                    error: true,
+                    message: "Titulo incorrecto",
+                });
+            }
+        };
 
     //Funcion para selectores
 
@@ -91,9 +78,14 @@ const Juego = () => {
                         <Typography component="h1" variant="h6">
                                     Juego cerrado
                         </Typography>
-                        <CKEditor
-                            editor={ClassicEditor}
-                            onChange={(e,editor)=>{handleChange(e,editor)}}/>
+                        <JoditEditor
+            	            ref={editor}
+                            value={content}
+                            config={config}
+		                    tabIndex={1} // tabIndex of textarea
+		                    onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                            onChange={newContent => {}}
+                        />
                     </Box>
                     <div>
                         {data}
@@ -104,9 +96,14 @@ const Juego = () => {
                         <Typography component="h1" variant="h6">
                                     Juego iniciado
                         </Typography>
-                        <CKEditor
-                            editor={ClassicEditor}
-                            onChange={(e,editor)=>{handleChange(e,editor)}}/>
+                        <JoditEditor
+            	            ref={editor}
+                            value={content}
+                            config={config}
+		                    tabIndex={1} // tabIndex of textarea
+		                    onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                            onChange={newContent => {}}
+                        />
                     </Box>
                     <div>
                         {data}
@@ -117,9 +114,14 @@ const Juego = () => {
                         <Typography component="h1" variant="h6">
                                     Juego en espera
                         </Typography>
-                        <CKEditor
-                            editor={ClassicEditor}
-                            onChange={(e,editor)=>{handleChange(e,editor)}}/>
+                        <JoditEditor
+            	            ref={editor}
+                            value={content}
+                            config={config}
+		                    tabIndex={1} // tabIndex of textarea
+		                    onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                            onChange={newContent => {}}
+                        />
                     </Box>
                     <div>
                         {data}
@@ -130,16 +132,21 @@ const Juego = () => {
                         <Typography component="h1" variant="h6">
                                     Juego finalizado
                         </Typography>
-                        <CKEditor
-                            editor={ClassicEditor}
-                            onChange={(e,editor)=>{handleChange(e,editor)}}/>
+                        <JoditEditor
+            	            ref={editor}
+                            value={content}
+                            config={config}
+		                    tabIndex={1} // tabIndex of textarea
+		                    onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                            onChange={newContent => {}}
+                        />
                     </Box>
                     <div>
                         {data}
                     </div>
                 </form>
                 <form style={style.form}>
-                    <Box border={1} borderRadius={5}>
+                    <Box border={1} borderRadius={5} component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <Typography component="h1" variant="h6">
@@ -156,39 +163,42 @@ const Juego = () => {
                             <Grid item xs={12} sm={6}>
                                 <TextField 
                                     id="titulo"
-                                    required
-                                    name="titulo"
-                                    onChange={usuario.titulo}
-                                    value={ValidateTitulo}
-                                    variant="outlined" 
-                                    error={ErrorTitulo}
-                                    type="text" 
-                                    label="Ingrese su titulo" 
-                                    helperText="Ingrese un titulo valido"
+                                    label="Titulo"
+                                    type="text"
+                                    variant="outlined"
                                     fullWidth 
+                                    required
+                                    error={error.error}
+                                    helperText={error.message}
+                                    value={usuario.titulo}
+                                    onChange={(e) => setUsuario(e.target.value)}
                                     />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField 
                                         id="logo"
-                                        required
-                                        name="logo"
-                                        onChange={usuario.logo}
-                                        value={ValidateTitulo}
-                                        variant="outlined" 
-                                        error={ErrorTitulo}
-                                        type="text" 
-                                        label="Ingrese su Logo" 
-                                        helperText="Ingrese un logo valido"
+                                        label="Logo"
+                                        type="text"
+                                        variant="outlined"
                                         fullWidth 
+                                        required
+                                        error={error.error}
+                                        helperText={error.message}
+                                        value={usuario.titulo}
+                                        onChange={(e) => setUsuario(e.target.value)}
                                         />
                             </Grid>
                         </Grid>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={6}>
-                                <CKEditor
-                                    editor={ClassicEditor}
-                                    onChange={(e,editor)=>{handleChange(e,editor)}}/>
+                                    <JoditEditor
+                                        ref={editor}
+                                        value={content}
+                                        config={config}
+                                        tabIndex={1} // tabIndex of textarea
+                                        onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                                        onChange={newContent => {}}
+                                    />
                                 <div>
                                     {data}
                                 </div>
@@ -240,9 +250,9 @@ const Juego = () => {
                                     onChange={handleChangeSelect}
                                     fullWidth
                                     >
-                                    <MenuItem value="10">Ten</MenuItem>
-                                    <MenuItem value="20">Twenty</MenuItem>
-                                    <MenuItem value="30">Thirty</MenuItem>
+                                    <MenuItem value={10}>Ten</MenuItem>
+                                    <MenuItem value={20}>Twenty</MenuItem>
+                                    <MenuItem value={30}>Thirty</MenuItem>
                                 </Select>
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -295,22 +305,14 @@ const Juego = () => {
                         </Grid>
                         
                         <Grid item xs={12} sm={12}></Grid>
-                        
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} md={6}>
                             <Box width="20%" margin="auto">
-                                <Button onClick={Atras} type="submit" variant="contained" color="primary" style={style.form} >
-                                    Atras
+                                <Button type="submit" variant="contained" color="primary" style={style.form} >
+                                    Registrar
                                 </Button>
                             </Box>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Box width="20%" margin="auto">
-                                <Button onClick={Siguiente} type="submit" variant="contained" color="primary" style={style.form} >
-                                    Siguiente
-                                </Button>
-                            </Box>
-                        </Grid>
-                    
+                        <Grid item xs={12} md={6}></Grid>
                         <Grid item xs={12} sm={12}></Grid>
                     </Box>
                 </form>
@@ -321,3 +323,46 @@ const Juego = () => {
 
 export default Juego; 
 
+//Navegacion entre paginas//
+
+/*const history = useHistory();
+const Siguiente = () => history.push('/auth/acceso');
+const Atras = () => history.push('/auth/imprimevoto');*/
+
+//titulo y logo //
+ /*const [usuario, setUsuario] = useState({
+        titulo :'',
+        logo :''
+        });
+
+    const [ErrorTitulo, setErrorTitulo] = useState(0);
+    
+    const ValidateTitulo = e => {
+        const{name, value} = e.target;
+        setUsuario( anterior => ({
+            ...anterior,
+            [name] : value
+        }))
+        console.log(value);
+        const minValue=value.length>4;
+        const maxValue=value.length<16;
+        const onliLet=/^[a-zA-Z0-9\_\-]{4,16}$/.test(value);
+
+        console.log("min",minValue);
+        console.log("maxValue",maxValue);
+        console.log("onliLet",onliLet);
+
+        if (onliLet === false) {
+            setErrorTitulo(1);
+        } else if (!minValue) {
+            setErrorTitulo(2);
+        } else {
+            setErrorTitulo(3);
+        }
+
+        if (onliLet === true && minValue && maxValue) {
+            setErrorTitulo(0);
+        }
+        setUsuario(value);
+    };
+*/
