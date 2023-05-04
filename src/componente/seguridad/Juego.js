@@ -6,9 +6,10 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Radio from '@material-ui/core/Radio';
 
+
 const Juego = () => {
 
-    const [data, setData]=useState('');
+    const [data, setData] = useState('');
 
     //Funcion para editor 
 
@@ -20,54 +21,59 @@ const Juego = () => {
 	}
 
     //Funcion para titulo y logo
+
+    const [usuario, setUsuario] = useState('') ({
+        titulo: '',
+        logo: '',
+        video: ''
+    });
+
+
+    const [error, setError] = useState('0');
     
-    const [usuario, setUsuario] = useState({
-        titulo :'',
-        logo :''
-        });
-    const [error, setError] = useState({
-        error: false,
-        message: "",
-        });
+    const ValidateEditor = e => {
+        const{name, value} = e.target;
+        setUsuario( anterior => ({
+            ...anterior,
+            [name] : value
+        }))
+        console.log(value); 
+        const minValue=value.length>4;
+        const maxValue=value.length<16;
+        const onliLet=/^.{4,16}$/.test(value);
 
-    const validateUsuario = (usuario) => {
-        const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-        return regex.test(usuario);
-        };
+        console.log("min",minValue);
+        console.log("maxValue",maxValue);
+        console.log("onliLet",onliLet);
 
-        const handleSubmit = (e) => {
-            e.preventDefault();
-            if (validateUsuario(usuario)) {
-                setError({
-                    error:false,
-                    message: "",
-                })
-                console.log("Titulo correcto");
-            } else {
-                setError({
-                    error: true,
-                    message: "Titulo incorrecto",
-                });
-            }
-        };
+        if (onliLet === false) {
+            setError(1);
+        } else if (!minValue) {
+            setError(2);
+        } else {
+            setError(3);
+        }
+
+        if (onliLet === true && minValue && maxValue) {
+            setError(0);
+        }
+        setUsuario(value);
+    };
 
     //Funcion para selectores
-
+    
     const [age, setAge] = React.useState('');
-    const Suppliers = ['Ten', 'Twenty', 'Thirty'];
-
+        console.log({age})
     const handleChangeSelect = (event) => {
-    setAge(event.target.value);
-        console.log(age);
+        setAge(event.target.value)
     };
 
     //Funcion para botones de radio
 
     const [selectedValue, setSelectedValue] = React.useState('a');
-
+        console.log({selectedValue})
     const handleChangeRadio = (event) => {
         setSelectedValue(event.target.value);
-        console.log(selectedValue)
     };
 
     return (
@@ -146,7 +152,7 @@ const Juego = () => {
                     </div>
                 </form>
                 <form style={style.form}>
-                    <Box border={1} borderRadius={5} component="form" onSubmit={handleSubmit}>
+                    <Box border={1} borderRadius={5} component="form">
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <Typography component="h1" variant="h6">
@@ -163,7 +169,8 @@ const Juego = () => {
                             <Grid item xs={12} sm={6}>
                                 <TextField 
                                     id="titulo"
-                                    label="Titulo"
+                                    //label="Titulo"
+                                    name="titulo"
                                     type="text"
                                     variant="outlined"
                                     fullWidth 
@@ -171,21 +178,21 @@ const Juego = () => {
                                     error={error.error}
                                     helperText={error.message}
                                     value={usuario.titulo}
-                                    onChange={(e) => setUsuario(e.target.value)}
+                                    onChange={ValidateEditor}
                                     />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField 
                                         id="logo"
-                                        label="Logo"
-                                        type="text"
+                                        name="logo"
+                                        type="URL"
                                         variant="outlined"
                                         fullWidth 
                                         required
                                         error={error.error}
                                         helperText={error.message}
                                         value={usuario.titulo}
-                                        onChange={(e) => setUsuario(e.target.value)}
+                                        onChange={ValidateEditor} // setUsuario//
                                         />
                             </Grid>
                         </Grid>
@@ -219,14 +226,16 @@ const Juego = () => {
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={12}>
                                 <TextField 
-                                        id="Titulo"
-                                        required
-                                        name="Titulo"
-                                        variant="outlined" 
-                                        type="text" 
-                                        label="Ingrese su titulo" 
-                                        helperText="Ingrese un titulo valido"
+                                        id="video"
+                                        name="video"
+                                        type="URL"
+                                        variant="outlined"
                                         fullWidth 
+                                        required
+                                        error={error.error}
+                                        helperText={error.message}
+                                        value={usuario.titulo}
+                                        onChange={ValidateEditor}
                                         />
                             </Grid>
                         </Grid>
@@ -250,9 +259,9 @@ const Juego = () => {
                                     onChange={handleChangeSelect}
                                     fullWidth
                                     >
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                <MenuItem value='10'>Ten</MenuItem>
+                                <MenuItem value='20'>Twenty</MenuItem>
+                                <MenuItem value='30'>Thirty</MenuItem>
                                 </Select>
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -262,9 +271,9 @@ const Juego = () => {
                                     onChange={handleChangeSelect}
                                     fullWidth
                                     >
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                <MenuItem value='10'>Ten</MenuItem>
+                                <MenuItem value='20'>Twenty</MenuItem>
+                                <MenuItem value='30'>Thirty</MenuItem>
                                 </Select>
                             </Grid>
                         </Grid>
@@ -278,7 +287,7 @@ const Juego = () => {
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <Typography component="h1" variant="h6">
-                                    Codigo y Login
+                                    Codigo
                                 </Typography>
                                 <Radio
                                 checked={selectedValue === 'Codigo'}
@@ -291,15 +300,15 @@ const Juego = () => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Typography component="h1" variant="h6">
-                                    Codigo 
+                                    Codigo y Login
                                 </Typography>
                                 <Radio
-                                checked={selectedValue === 'Codigo y Login'}
+                                checked={selectedValue === 'Codigo  y Login'}
                                 onChange={handleChangeRadio}
-                                value="Codigo y Login"
-                                name="Codigo y Login"
-                                inputProps={{ 'aria-label': 'Codigo y Login' }}
-                                label="Codigo y Login"
+                                value="Codigo  y Login"
+                                name="Codigo  y Login"
+                                inputProps={{ 'aria-label': 'Codigo  y Login' }}
+                                label="Codigo  y Login"
                                 />
                             </Grid>
                         </Grid>
@@ -365,4 +374,28 @@ const Atras = () => history.push('/auth/imprimevoto');*/
         }
         setUsuario(value);
     };
-*/
+
+
+     //onSubmit={handleSubmit}// 
+
+
+const [age, setAge] = React.useState('');
+    const Suppliers = ['Ten', 'Twenty', 'Thirty'];
+
+    const handleChangeSelect = (event) => {
+    setAge(event.target.value);
+        console.log(age);
+    };    
+    
+
+    /*id="demo"
+                                    value={age}
+                                    onChange={handleChangeSelect}
+                                    fullWidth
+                                    >
+    <MenuItem value={10}>Ten</MenuItem>
+    <MenuItem value={20}>Twenty</MenuItem>
+    <MenuItem value={30}>Thirty</MenuItem>
+    
+    */
+    
