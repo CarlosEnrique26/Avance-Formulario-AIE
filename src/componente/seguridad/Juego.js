@@ -10,7 +10,12 @@ import Radio from '@material-ui/core/Radio';
 const Juego = () => {
 
     const [data, setData] = useState('');
-
+    const [usuario, setUsuario] = useState({
+        titulo: '',
+        logo: '',
+        video: ''
+    });
+    
     //Funcion para editor 
 
     const editor = useRef(null)
@@ -22,11 +27,11 @@ const Juego = () => {
 
     //Funcion para titulo y logo
 
-    const [usuario, setUsuario] = useState('') ({
+    /*const [usuario, setUsuario] = useState('') ({
         titulo: '',
         logo: '',
         video: ''
-    });
+    });*/
 
 
     const [error, setError] = useState('0');
@@ -40,7 +45,7 @@ const Juego = () => {
         console.log(value); 
         const minValue=value.length>4;
         const maxValue=value.length<16;
-        const onliLet=/^.{4,16}$/.test(value);
+        const onliLet=/^[a-zA-Z0-9\_\-]{4,16}$/.test(value);
 
         console.log("min",minValue);
         console.log("maxValue",maxValue);
@@ -74,6 +79,10 @@ const Juego = () => {
         console.log({selectedValue})
     const handleChangeRadio = (event) => {
         setSelectedValue(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        setData(event.target.value);
     };
 
     return (
@@ -152,7 +161,7 @@ const Juego = () => {
                     </div>
                 </form>
                 <form style={style.form}>
-                    <Box border={1} borderRadius={5} component="form">
+                    <Box border={1} borderRadius={5} component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <Typography component="h1" variant="h6">
@@ -314,7 +323,7 @@ const Juego = () => {
                         </Grid>
                         
                         <Grid item xs={12} sm={12}></Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={12}>
                             <Box width="20%" margin="auto">
                                 <Button type="submit" variant="contained" color="primary" style={style.form} >
                                     Registrar

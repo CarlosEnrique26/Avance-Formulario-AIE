@@ -54,7 +54,7 @@ const Acceso = () => {
 
     const BotonAcceso = e => {
         e.preventDefault();
-        console.log("Imprime los valores de memoria temporal de usuario", usuario);
+        console.log("Su usuario a sido registrado como: ", usuario);
     }
     
     return (

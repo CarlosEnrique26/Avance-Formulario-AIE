@@ -26,7 +26,7 @@ import { useHistory } from 'react-router-dom';
     //Navegacion entre paginas//
     
     const history = useHistory();
-    const Siguiente = () => history.push('/auth/juego');
+    const Siguiente = () => history.push('/auth/Acceso');
     const Atras = () => history.push('/auth/botonesradio');
 
     // Botones de Radio //

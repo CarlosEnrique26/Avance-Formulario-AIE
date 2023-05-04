@@ -19,6 +19,11 @@ return (
       <MuithemeProvider theme={theme}>
         <Grid container>
             <Switch>
+                <Route exact path="/auth/acceso" component={Acceso} />
+                <Route exact path="/auth/votodelegado" component={VotoDelegado} />
+                <Route exact path="/auth/enviar" component={Enviar} />
+                <Route exact path="/auth/botonesradio" component={BotonesRadio} />
+                <Route exact path="/auth/imprimevoto" component={ImprimeVoto} />
                 <Route exact path="/auth/juego" component={Juego} />
             </Switch>
         </Grid>
