@@ -19,9 +19,9 @@ import { useHistory } from 'react-router-dom';
     const BotonesRadio = () => {
 
     const [usuario, setUsuario] = useState({
-        PedroMiguel : {createData},
-        MaríaBernar : '',
-        EstebanRuiz : ''
+        PedroMiguel : 'PresidenteLuis, PresidenteJuan, VotoBlanco',
+        MaríaBernar : 'PresidenteLuis, PresidenteJuan, VotoBlanco',
+        EstebanRuiz : 'PresidenteLuis, PresidenteJuan, VotoBlanco'
         });
 
     //Navegacion entre paginas//
