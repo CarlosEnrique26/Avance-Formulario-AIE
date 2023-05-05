@@ -27,13 +27,6 @@ const Juego = () => {
 
     //Funcion para titulo y logo
 
-    /*const [usuario, setUsuario] = useState('') ({
-        titulo: '',
-        logo: '',
-        video: ''
-    });*/
-
-
     const [error, setError] = useState('0');
     
     const ValidateEditor = e => {
